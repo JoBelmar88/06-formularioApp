@@ -3,7 +3,7 @@
 
 <div class="row">
   <div class="col">
-    <form (ngSubmit)="guardar(miFormulario)"
+    <form (ngSubmit)="guardar()"
           #miFormulario="ngForm"
           autocomplete="off">
 
@@ -16,8 +16,12 @@
                  name="producto"
                  class="form-control"
                  placeholder="Nombre del Producto"
-                 required>
-          <span class="form-text text-danger">Debe ser de 3 letras</span>
+                 required
+                 minlength="3">
+          <span class="form-text text-danger"
+                *ngIf="nombreValido()">
+                Debe ser de 3 letras
+          </span>
         </div>
       </div>
 
@@ -32,6 +36,10 @@
                  required
                  min="0"
                  placeholder="Precio del Producto">
+          <span class="form-text text-danger"
+                *ngIf="precioValido()">
+                El precio debe ser 0 o mayor
+          </span>
         </div>
       </div>
 
@@ -43,6 +51,8 @@
                  class="form-control"
                  ngModel
                  name="existencias"
+                 customMin
+                 [minimo]="0"
                  placeholder="Existencias del Producto">
         </div>
       </div>
@@ -62,7 +72,14 @@
 <div class="row">
   <div class="col">
     <span>Valid</span>
-    <pre>{{miFormulario.valid | json}}</pre>
+    <pre>{{miFormulario.valid}}</pre>
+
+    <span>Pristine</span>
+    <pre>{{miFormulario.pristine | json}}</pre>
+
+    <span>Touched</span>
+    <pre>{{miFormulario.touched | json}}</pre>
+
     <span>Value</span>
     <pre>{{miFormulario.value | json}}</pre>
   </div>
