@@ -21,8 +21,23 @@ export class SwitchesComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder) { }
 
-  ngOnInit(): void {
-    this.miFormulario.reset( this.persona );
+  ngOnInit() {
+    this.miFormulario.reset({
+      ...this.persona,
+      condiciones:false
+    });
+
+    // de esta manera abstraemos la propiedad condiciones y entregamos el resto de las propiedades
+    this.miFormulario.valueChanges.subscribe( ({condiciones, ...rest}) => {
+        this.persona = rest;
+    });
+  };
+
+  guardar(){
+    const fromValue = {...this.miFormulario.value};
+    delete fromValue.condiciones;
+
+    this.persona = fromValue;
   }
 
 }
